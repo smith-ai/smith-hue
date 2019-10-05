@@ -5,6 +5,22 @@ class Hue {
         this.address = address;
     }
 
+    static async discover() {
+        const result = await axios.get('https://discovery.meethue.com');
+
+        if (result.data.length === 0) throw new Error('Unable to discover Hue Bridge on network');
+
+        return result.data[0];
+    }
+
+    static async register(address, devicetype) {
+        const result = await axios.post(address, { devicetype });
+
+        if (result.data.length === 0) throw new Error('Unable to register to Bridge API');
+
+         return result.data[0];
+    }
+
     async doRequest(method, uri, params) {
         const options = {
             method,

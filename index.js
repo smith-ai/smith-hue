@@ -5,6 +5,33 @@ const hue = ({ address }) => {
     return new Hue(address);
 }
 
+const install = async () => {
+    // Find the IP of the Bridge on the network
+    const discovery = await Hue.discover();
+
+    const bridge = discovery.internalipaddress;
+
+    const name = '@mr-smith/smith-hue';
+    let address = `http://${bridge}/api`;
+
+    // Try to register, this will not return anything yet, 
+    // requiring user to press button on their Bridge
+    await Hue.register(address, name);
+
+    // Wait for user to press button on Bridge
+    await new Promise(done => setTimeout(done, 10000));
+
+    // Try registering again, this will return a new API username
+    const register = await Hue.register(address, name);
+    const { username } = register.success;
+
+     address += `/${username}`;
+
+     return {
+         address
+     };
+};
+
 action('turn off all lights', async (params, config) => {
     await hue(config).toggleAllLights(false);
 
@@ -41,4 +68,7 @@ action('brighten', async (light, config) => {
     return `Brightened light ${light}`;
 });
 
-module.exports = actions;
+module.exports = {
+    actions,
+    install,
+};
