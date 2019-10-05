@@ -1,0 +1,13 @@
+{
+  "name": "@smith-ai/smith-hue",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@smith-ai/smith-actions": "^1.0.0",
+    "axios": "^0.19.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  }
+}
