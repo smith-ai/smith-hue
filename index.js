@@ -1,10 +1,23 @@
 const { action, actions } = require('@smith-ai/smith-actions');
 const Hue = require('./hue');
 
+/**
+ * Create a new instance of the Hue client for the
+ * given Bridge API address.
+ * 
+ * @param {object} param0 Module config object containing the Bridge address to use
+ */
 const hue = ({ address }) => {
     return new Hue(address);
 }
 
+/**
+ * Module install command that will attempt to auto-discover
+ * and register with a Hue Bridge on the network. Returns a new
+ * module config object containing the full address of the Bridge
+ * API and username. This should be called by smith-api upon 
+ * module installation.
+ */
 const install = async () => {
     // Find the IP of the Bridge on the network
     const discovery = await Hue.discover();
