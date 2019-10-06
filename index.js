@@ -18,7 +18,7 @@ const hue = ({ address }) => {
  * API and username. This should be called by smith-api upon 
  * module installation.
  */
-const install = async () => {
+const install = async (output) => {
     // Find the IP of the Bridge on the network
     const discovery = await Hue.discover();
 
@@ -30,6 +30,8 @@ const install = async () => {
     // Try to register, this will not return anything yet, 
     // requiring user to press button on their Bridge
     await Hue.register(address, name);
+
+    output.write('Press the button on your Hue Bridge');
 
     // Wait for user to press button on Bridge
     await new Promise(done => setTimeout(done, 10000));
